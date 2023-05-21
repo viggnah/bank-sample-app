@@ -1,9 +1,9 @@
 import Navigation from "./pages/NavBar";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from "./pages/Home";
-import DividendsPayable from "./pages/DividendsPayable";
 import { AuthProvider } from "@asgardeo/auth-react";
 import { AsgardeoConfig } from "./constants/config";
+import ShareCapital from "./pages/ShareCapital";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
           <Navigation />
           <Routes>
             <Route path="/" element={<Home />} ></Route>
-            <Route path="/dividendsPayable" element={<DividendsPayable />} ></Route>
+            <Route path="/sharecapital" element={<ShareCapital />} ></Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>

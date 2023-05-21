@@ -3,21 +3,16 @@ import { Col, Container, Row, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { Hosts } from "../constants/config";
 
-const DividendsPayable = () => {
+const ShareCapital = () => {
     const [fetchData, setFetchData] = useState(true);
-
-    const [dividends, setDividends] = useState([]);
+    const [sharecapital, setSharecapital] = useState([]);
     const HOST = Hosts.host;
 
-    const headers = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
-    };
-
     useEffect(() => {
-        axios.get(HOST + "/sharecapitalinfo?reportingDate=2023-05-20", headers).then(responseData => {
+        axios.get(HOST + "/sharecapital/sc").then(responseData => {
             console.log(responseData.data);
-            let responseEntries = Object.entries(responseData.data);
-            setDividends(responseData.data);
+            // let responseEntries = Object.entries(responseData.data);
+            setSharecapital(responseData.data);
         });
         setFetchData(false);
     }, [fetchData]);
@@ -34,15 +29,16 @@ const DividendsPayable = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* {dividends.map((item, index) => (
+                            {/* {sharecapital.map((item, index) => (
                                 <tr key={index}>
                                     <td>{index}</td>
-                                    <td>{item}</td>
-                                </tr> */}
+                                    <td>{item.capitalCategory}</td>
+                                </tr>
+                            ))} */}
                             <tr key={1}>
                                 <td>1</td>
                                 <td>
-                                    <pre>{JSON.stringify(dividends, null, 4)}</pre>
+                                    <pre>{JSON.stringify(sharecapital, null, 4)}</pre>
                                 </td>
                             </tr>
                         </tbody>
@@ -53,4 +49,4 @@ const DividendsPayable = () => {
     );
 };
 
-export default DividendsPayable;
+export default ShareCapital;

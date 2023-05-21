@@ -9,5 +9,5 @@ export const AsgardeoConfig = {
 
 // Service Host and Port
 export const Hosts = {
-   host: "http://localhost:9090"
+   host: "http://localhost:8290"
 };
