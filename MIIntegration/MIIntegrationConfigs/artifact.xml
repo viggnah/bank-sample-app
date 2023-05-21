@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="ShareCapital" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/ShareCapital.xml</file>
+    </artifact>
+    <artifact name="ShareCapitalInfoEP" groupId="com.example.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/ShareCapitalInfoEP.xml</file>
+    </artifact>
+    <artifact name="SharePriceEP" groupId="com.example.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/SharePriceEP.xml</file>
+    </artifact>
+    <artifact name="GetSharePrice" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/GetSharePrice.xml</file>
+    </artifact>
+    <artifact name="GetShareCapitalInfo" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/GetShareCapitalInfo.xml</file>
+    </artifact>
+    <artifact name="ShareCapitalPostCBEP" groupId="com.example.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/ShareCapitalPostCBEP.xml</file>
+    </artifact>
+    <artifact name="ShareCapitalGetCBEP" groupId="com.example.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/ShareCapitalGetCBEP.xml</file>
+    </artifact>
+</artifacts>

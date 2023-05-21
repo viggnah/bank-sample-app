@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="GetSharePrice" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <call>
+        <endpoint key="SharePriceEP"/>
+    </call>
+    <payloadFactory description="XmlToJson" media-type="json">
+        <format>{"sharePriceBookValue": "$1", "reportingDate": "$2"}</format>
+        <args>
+            <arg evaluator="xml" expression="//*[local-name() = 'sharePriceBookValue']"/>
+            <arg evaluator="xml" expression="//*[local-name() = 'date']"/>
+        </args>
+    </payloadFactory>
+    <log level="full" separator=" >>> "/>
+</sequence>

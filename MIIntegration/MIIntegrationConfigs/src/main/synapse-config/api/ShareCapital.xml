@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/sharecapital" name="ShareCapital" statistics="enable" trace="enable" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/sc">
+        <inSequence>
+            <log/>
+            <propertyGroup>
+                <property expression="json-eval($.reporting_date)" name="uri.var.reportingDate" scope="default" type="STRING"/>
+                <property expression="json-eval($.institute_code)" name="instituteCode" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log level="custom" separator=" >>> ">
+                <property expression="uri.var.reportingDate" name="reportingDate"/>
+                <property expression="get-property('instituteCode')" name="instituteCode"/>
+            </log>
+            <clone>
+                <target>
+                    <sequence>
+                        <sequence key="GetShareCapitalInfo"/>
+                    </sequence>
+                </target>
+                <target>
+                    <sequence>
+                        <sequence key="GetSharePrice"/>
+                    </sequence>
+                </target>
+            </clone>
+            <aggregate>
+                <completeCondition>
+                    <messageCount max="-1" min="-1"/>
+                </completeCondition>
+                <onComplete aggregateElementType="child" expression="json-eval($)">
+                    <propertyGroup>
+                        <property expression="json-eval($)" name="aggPayload" scope="default" type="STRING"/>
+                        <property expression="json-eval($.numberOfShares)" name="numberOfShares" scope="default" type="DOUBLE"/>
+                        <property expression="json-eval($.sharePriceBookValue)" name="sharePriceBookValue" scope="default" type="DOUBLE"/>
+                        <property expression="$ctx:numberOfShares*$ctx:sharePriceBookValue" name="tzsAmount" scope="default" type="DOUBLE"/>
+                    </propertyGroup>
+                    <log level="custom" separator=" >>> ">
+                        <property expression="get-property('aggPayload')" name="aggPayload"/>
+                        <property expression="get-property('numberOfShares')" name="numberOfShares"/>
+                        <property expression="get-property('sharePriceBookValue')" name="sharePriceBookValue"/>
+                        <property expression="get-property('tzsAmount')" name="tzsAmount"/>
+                    </log>
+                    <payloadFactory description="Enrich" media-type="json">
+                        <format>{"info": $1, "calculated": {"tzsAmount": "$2"}}</format>
+                        <args>
+                            <arg evaluator="xml" expression="get-property('aggPayload')"/>
+                            <arg evaluator="xml" expression="get-property('tzsAmount')"/>
+                        </args>
+                    </payloadFactory>
+                    <log level="full" separator=" >>> "/>
+                    <call>
+                        <endpoint key="ShareCapitalPostCBEP"/>
+                    </call>
+                    <respond/>
+                </onComplete>
+            </aggregate>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="GET" uri-template="/sc">
+        <inSequence>
+            <call>
+                <endpoint key="ShareCapitalGetCBEP"/>
+            </call>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
