@@ -2,6 +2,7 @@ import ballerina/io;
 import ballerina/http;
 import ballerina/random;
 import ballerina/uuid;
+import ballerina/time;
 
 json[] shareCapitalTable = [];
 
@@ -29,7 +30,7 @@ service http:Service / on new http:Listener(9090) {
     // API resource that returns static share price data in xml after taking in the reporting date
     resource function get shareprice(string reportingDate) returns xml {
         return xml `<sharePrice>
-                        <sharePriceBookValue>50.88</sharePriceBookValue>
+                        <sharePriceBookValue>3.40</sharePriceBookValue>
                         <date>${reportingDate}</date>
                     </sharePrice>`;
     }
@@ -60,12 +61,13 @@ service http:Service / on new http:Listener(9090) {
 function createRandomData() returns [string, string, int]|error {
     int month = check random:createIntInRange(1, 12);
     int day = check random:createIntInRange(1, 28);
-    string transactionDate = "2022-" + month.toString().padStart(2, "0") + "-" + day.toString().padStart(2, "0");
+    int year = time:utcToCivil(time:utcNow()).year - 1;
+    string transactionDate = year.toString() + "-" + month.toString().padStart(2, "0") + "-" + day.toString().padStart(2, "0");
     
     string[] names = ["Will", "George", "Jack", "Russell", "John", "James", "Henry", "William", "Thomas", "Edward", "Harry", "Arthur", "Fred"];
     string shareHolderName = names[month] + " " + names[month/2];
 
-    int numberOfShares = check random:createIntInRange(100, 10000);
+    int numberOfShares = check random:createIntInRange(3, 20);
 
     return [transactionDate, shareHolderName, numberOfShares];
 }
